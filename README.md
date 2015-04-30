@@ -3,7 +3,7 @@
 
 Easy way to use Switch
 
-![](https://github.com/Otherplayer/GGSwitch/master/Others/screenshot.png)
+![image](https://github.com/Otherplayer/GGSwitch/raw/master/Others/screenshot.png)
 ## Usage ##
 
 Import 
