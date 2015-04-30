@@ -10,19 +10,19 @@
 #define degreesToRadians(degrees) ((degrees) * M_PI / 180.0)
 #define PROGRESS_LINE_WIDTH 1 //弧线的宽度
 
-#define kSwitchWidth 64
-#define kSwitchHeight 31
+static CGFloat kSwitchWidth  = 65.0; //宽
+static CGFloat kSwitchHeight = 31.0; //高
 
 @interface GGSwitch ()
 @property (nonatomic, strong)CAShapeLayer *trackLayer;
-@property (nonatomic, strong)CAShapeLayer *bgLayer;
 
 @property (nonatomic, unsafe_unretained)BOOL stateisOn;
 @end
 @implementation GGSwitch{
     BOOL shouldAnimated;
-    UIColor *onColor;
-    UIColor *offColor;
+    
+    UIColor *onColor; //开时的背景色
+    UIColor *offColor;//关时的背景色
 }
 
 - (instancetype)initWithFrame:(CGRect)frame{
@@ -35,21 +35,13 @@
         offColor = [UIColor whiteColor];
         
         CGSize size = CGSizeMake(kSwitchWidth, kSwitchHeight);
-        _bgLayer = [CAShapeLayer layer];
-        _bgLayer.frame = self.bounds;
-//        [self.layer addSublayer:_bgLayer];
-        _bgLayer.fillColor = [offColor CGColor];
-        _bgLayer.strokeColor = [[UIColor grayColor] CGColor];
-        _bgLayer.opacity = 0.35;
-        _bgLayer.lineCap = kCALineCapRound;
-        _bgLayer.lineWidth = PROGRESS_LINE_WIDTH;
-        
         
         _trackLayer = [CAShapeLayer layer];
-        _trackLayer.frame = CGRectMake(0, 0, size.height, size.width);
         [self.layer addSublayer:_trackLayer];
+        
+        _trackLayer.frame = CGRectMake(0, 0, size.height, size.width);
         _trackLayer.fillColor = [[UIColor whiteColor] CGColor];
-//        _trackLayer.strokeColor = [[UIColor greenColor] CGColor];//指定path的渲染颜色
+        //_trackLayer.strokeColor = [[UIColor greenColor] CGColor];//指定path的渲染颜色
         _trackLayer.opacity = 1;
         _trackLayer.lineCap = kCALineCapRound;
         _trackLayer.lineWidth = PROGRESS_LINE_WIDTH;
@@ -68,7 +60,7 @@
 }
 
 
-
+#pragma mark - Missions
 
 - (void)addTapGesture{
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(switchStateChanged)];
@@ -83,9 +75,10 @@
     CGRect newBounds;
     UIColor *color = nil;
     if (self.stateisOn) {
-        newBounds = CGRectMake(size.width / 2, 0, size.height, size.height);
+        newBounds = CGRectMake(size.width - size.height, 0, size.height, size.height);
         color = onColor;
-    }else{
+    }
+    else{
         newBounds = CGRectMake(0, 0, size.height, size.width);
         color = offColor;
     }
@@ -97,18 +90,29 @@
         [CATransaction setAnimationDuration:0.15];
         _trackLayer.frame = newBounds;
         [CATransaction commit];
-    }else{
+    }
+    else{
         _trackLayer.frame = newBounds;
     }
     
-    _bgLayer.fillColor = color.CGColor;
-    if (self.actionBlock) {
-        self.actionBlock(self.stateisOn);
+    if (self.tapBlock) {
+        self.tapBlock(self.stateisOn);
     }
+    
     [self setNeedsDisplay];
-    NSLog(@"---%d",self.stateisOn);
 }
 
+#pragma mark - Size
+-(void)setSwitchSize:(CGSize)switchSize{
+    kSwitchWidth  = switchSize.width;
+    kSwitchHeight = switchSize.height;
+    
+    CGRect oldFrame = self.frame;
+    CGRect newFrame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, kSwitchWidth, kSwitchHeight);
+    
+    [self setFrame:newFrame];
+    [self setNeedsDisplay];
+}
 
 #pragma mark - Color
 -(void)setTintColor:(UIColor *)tintColor{
@@ -120,7 +124,6 @@
 -(void)setOnTintColor:(UIColor *)onTintColor{
     onColor = onTintColor;
     if (self.stateisOn) {
-//        _bgLayer.fillColor = [onTintColor CGColor];
         [self setNeedsDisplay];
     }
 }
@@ -144,32 +147,36 @@
 - (void)drawRect:(CGRect)rect {
     // Drawing code
     CGSize size = CGSizeMake(kSwitchWidth, kSwitchHeight);
+    CGFloat halfHeight = size.height / 2;
+    CGFloat width      = size.width;
+    CGFloat height     = size.height;
     
-    size.height = size.height / 2;
-    UIBezierPath* pathLeft = [UIBezierPath bezierPathWithArcCenter:CGPointMake(size.height, size.height)//圆弧中心
-                                                         radius:size.height//半径
+    UIBezierPath* pathLeft = [UIBezierPath bezierPathWithArcCenter:CGPointMake(halfHeight + 1, halfHeight)//圆弧中心
+                                                         radius:halfHeight//半径
                                                      startAngle:degreesToRadians(90)//开始角度
                                                        endAngle:degreesToRadians(270)//结束角度
                                                       clockwise:YES];//是否顺时针
-    pathLeft.lineWidth = 1.0;
-    pathLeft.lineCapStyle = kCGLineCapRound; //线条拐角
+    pathLeft.lineWidth     = 1.0;
+    pathLeft.lineCapStyle  = kCGLineCapRound;  //线条拐角
     pathLeft.lineJoinStyle = kCGLineCapRound; //终点处理
-    [pathLeft addLineToPoint:CGPointMake(size.width - size.height, 0)];
+    [pathLeft addLineToPoint:CGPointMake(width - halfHeight, 0)];
     
-    UIBezierPath *pathRight = [UIBezierPath bezierPathWithArcCenter:CGPointMake(size.width - size.height, size.height)
-                                                         radius:size.height
+    UIBezierPath *pathRight = [UIBezierPath bezierPathWithArcCenter:CGPointMake(width - 1 - halfHeight, halfHeight)
+                                                         radius:halfHeight
                                                      startAngle:degreesToRadians(270)
                                                        endAngle:degreesToRadians(90)
                                                       clockwise:YES];
     pathRight.lineWidth = 1.0;
     [pathLeft appendPath:pathRight];
-    [pathLeft addLineToPoint:CGPointMake(size.height, size.height * 2)];
-    UIColor *fontColor = [UIColor whiteColor];
+    [pathLeft addLineToPoint:CGPointMake(halfHeight, height)];
+//
+    UIColor *fontColor = [UIColor whiteColor];//字体颜色
     if (self.stateisOn) {
         [onColor setStroke];
         [onColor setFill];
         fontColor = [UIColor whiteColor];
-    }else{
+    }
+    else{
         [[UIColor groupTableViewBackgroundColor] setStroke];
         [offColor setFill];
         fontColor = [UIColor darkGrayColor];
@@ -178,32 +185,33 @@
     [pathLeft stroke];
     
     
-    
-    UIBezierPath* pathCircle = [UIBezierPath bezierPathWithArcCenter:CGPointMake(size.height, size.height)//圆弧中心
-                                                            radius:size.height//半径
+    UIBezierPath* pathCircle = [UIBezierPath bezierPathWithArcCenter:CGPointMake(halfHeight, halfHeight)//圆弧中心
+                                                            radius:halfHeight//半径
                                                         startAngle:degreesToRadians(0)//开始角度
                                                           endAngle:degreesToRadians(360)//结束角度
                                                          clockwise:YES];//是否顺时针
-    pathCircle.lineWidth = 1.0;
-    pathCircle.lineCapStyle = kCGLineCapRound; //线条拐角
+    pathCircle.lineWidth     = 1.0;
+    pathCircle.lineCapStyle  = kCGLineCapRound; //线条拐角
     pathCircle.lineJoinStyle = kCGLineCapRound; //终点处理
-//
-//    
-//    _bgLayer.path = [pathLeft CGPath];
     _trackLayer.path =[pathCircle CGPath];
     
     
-//
-    NSDictionary *attributes =@{NSFontAttributeName:[UIFont systemFontOfSize:18],
-                         NSForegroundColorAttributeName:fontColor};
+    
+    NSDictionary *attributes =@{
+                                NSFontAttributeName:[UIFont systemFontOfSize:18],
+                     NSForegroundColorAttributeName:fontColor
+                                };
+    
     if (self.onText && self.onText.length > 0) {
-        CGSize size = [self.onText sizeWithAttributes:attributes];
         
-        [self.onText drawInRect:CGRectMake((kSwitchWidth/2 - size.width)/2, (kSwitchHeight-size.height) / 2, kSwitchWidth / 2, kSwitchHeight) withAttributes:attributes];
-    }
-    if (self.offText && self.offText.length > 0) {
         CGSize size = [self.onText sizeWithAttributes:attributes];
-        [self.offText drawInRect:CGRectMake(kSwitchWidth/2 + (kSwitchWidth/2 - size.width)/2, (kSwitchHeight-size.height) / 2, kSwitchWidth / 2, kSwitchHeight) withAttributes:attributes];
+        [self.onText drawInRect:CGRectMake((width/2 - size.width)/2, (height-size.height) / 2, width / 2, height) withAttributes:attributes];
+    }
+    
+    if (self.offText && self.offText.length > 0) {
+        
+        CGSize size = [self.onText sizeWithAttributes:attributes];
+        [self.offText drawInRect:CGRectMake(width/2 + (width/2 - size.width)/2, (height-size.height) / 2, width / 2, height) withAttributes:attributes];
     }
 }
 

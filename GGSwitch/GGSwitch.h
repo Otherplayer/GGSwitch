@@ -15,12 +15,16 @@
 @property (nonatomic, strong) UIColor *thumbTintColor;
 @property (nonatomic, strong) NSString *onText;
 @property (nonatomic, strong) NSString *offText;
-@property (nonatomic, strong) void(^actionBlock)(BOOL on);
+
+@property (nonatomic, unsafe_unretained) CGSize switchSize;// 设置大小， 建议宽高比2：1左右
 
 
+@property (nonatomic, strong, setter=actionBlock:) void(^tapBlock)(BOOL on);
 @property(nonatomic,getter=isOn) BOOL on;
 
-- (instancetype)initWithFrame:(CGRect)frame;              // This class enforces a size appropriate for the control. The frame size is ignored.
+
+
+- (instancetype)initWithFrame:(CGRect)frame;    // This class enforces a size appropriate for the control. The frame size is ignored.
 
 - (void)setOn:(BOOL)on animated:(BOOL)animated; // does not send action
 

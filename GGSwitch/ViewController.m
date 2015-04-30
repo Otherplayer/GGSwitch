@@ -10,7 +10,7 @@
 #import "GGSwitch.h"
 
 @interface ViewController ()
-@property (nonatomic, strong)GGSwitch *switchh;
+@property (nonatomic, strong)GGSwitch *mySwitch;
 
 
 @end
@@ -21,16 +21,22 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    self.switchh = [[GGSwitch alloc] initWithFrame:CGRectMake(100, 100, 200, 400)];
-    [self.switchh setBackgroundColor:[UIColor whiteColor]];
-    [self.view addSubview:self.switchh];
-    [self.switchh setTintColor:[UIColor redColor]];
-    [self.switchh setThumbTintColor:[UIColor whiteColor]];
-    [self.switchh setOn:YES animated:YES];
-    [self.switchh setOnTintColor:[UIColor orangeColor]];
-    [self.switchh setOnText:@"lbs"];
-    [self.switchh setOffText:@"kg"];
-    [self.switchh setActionBlock:^(BOOL on) {
+    self.mySwitch = [[GGSwitch alloc] initWithFrame:CGRectMake(10, 100, 400, 400)];//与此大小无关
+    [self.mySwitch setBackgroundColor:[UIColor whiteColor]];
+    [self.view addSubview:self.mySwitch];
+    
+    /*可选Start*/
+    [self.mySwitch setTintColor:[UIColor redColor]];
+    [self.mySwitch setThumbTintColor:[UIColor whiteColor]];
+    [self.mySwitch setOnTintColor:[UIColor orangeColor]];
+    [self.mySwitch setOnText:@"lbs"];
+    [self.mySwitch setOffText:@"kg"];
+    [self.mySwitch setSwitchSize:CGSizeMake(78, 34)];//可设置大小
+    /*End*/
+    
+    [self.mySwitch setOn:YES animated:YES];
+    
+    [self.mySwitch actionBlock:^(BOOL on) {
         NSLog(@"============%d",on);
     }];
     

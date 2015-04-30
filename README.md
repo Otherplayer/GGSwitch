@@ -24,15 +24,15 @@ Use it!
 
 @property (nonatomic, strong) NSString *offText;
 
-@property (nonatomic, strong) void(^actionBlock)(BOOL on);
+@property (nonatomic, unsafe_unretained) CGSize switchSize;// 设置大小， 建议宽高比2：1左右
 
 
-
+@property (nonatomic, strong, setter=actionBlock:) void(^tapBlock)(BOOL on);
 @property(nonatomic,getter=isOn) BOOL on;
 
 
-- (instancetype)initWithFrame:(CGRect)frame; // This class enforces a size appropriate for the control. The frame size is ignored.
 
+- (instancetype)initWithFrame:(CGRect)frame;    // This class enforces a size appropriate for the control. The frame size is ignored.
 
 - (void)setOn:(BOOL)on animated:(BOOL)animated; // does not send action
 
@@ -42,16 +42,22 @@ Use it!
 
 ```objective-c
 
-self.switchh = [[GGSwitch alloc] initWithFrame:CGRectMake(100, 100, 200, 400)];
-[self.switchh setBackgroundColor:[UIColor whiteColor]];
-[self.view addSubview:self.switchh];
-[self.switchh setTintColor:[UIColor redColor]];
-[self.switchh setThumbTintColor:[UIColor whiteColor]];
-[self.switchh setOn:YES animated:YES];
-[self.switchh setOnTintColor:[UIColor orangeColor]];
-[self.switchh setOnText:@"lbs"];
-[self.switchh setOffText:@"kg"];
-[self.switchh setActionBlock:^(BOOL on) {
+self.mySwitch = [[GGSwitch alloc] initWithFrame:CGRectMake(10, 100, 400, 400)];//与此大小无关
+[self.mySwitch setBackgroundColor:[UIColor whiteColor]];
+[self.view addSubview:self.mySwitch];
+
+/*可选Start*/
+[self.mySwitch setTintColor:[UIColor redColor]];
+[self.mySwitch setThumbTintColor:[UIColor whiteColor]];
+[self.mySwitch setOnTintColor:[UIColor orangeColor]];
+[self.mySwitch setOnText:@"lbs"];
+[self.mySwitch setOffText:@"kg"];
+[self.mySwitch setSwitchSize:CGSizeMake(100, 50)];//可设置大小
+/*End*/
+
+[self.mySwitch setOn:YES animated:YES];
+
+[self.mySwitch actionBlock:^(BOOL on) {
 NSLog(@"============%d",on);
 }];
 
