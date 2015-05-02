@@ -14,7 +14,7 @@
 		6326B77A1AF1277600A147F6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6326B7791AF1277600A147F6 /* Images.xcassets */; };
 		6326B77D1AF1277600A147F6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6326B77B1AF1277600A147F6 /* LaunchScreen.xib */; };
 		6326B7891AF1277600A147F6 /* GGSwitchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6326B7881AF1277600A147F6 /* GGSwitchTests.m */; };
-		6389810B1AF242C900C1D3EB /* GGSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 6389810A1AF242C900C1D3EB /* GGSwitch.m */; };
+		63B4D8F41AF5614C00A60BDC /* GGSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B4D8F31AF5614C00A60BDC /* GGSwitch.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,8 +41,8 @@
 		6326B7821AF1277600A147F6 /* GGSwitchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GGSwitchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6326B7871AF1277600A147F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6326B7881AF1277600A147F6 /* GGSwitchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GGSwitchTests.m; sourceTree = "<group>"; };
-		638981091AF242C900C1D3EB /* GGSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GGSwitch.h; sourceTree = "<group>"; };
-		6389810A1AF242C900C1D3EB /* GGSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGSwitch.m; sourceTree = "<group>"; };
+		63B4D8F21AF5614C00A60BDC /* GGSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GGSwitch.h; sourceTree = SOURCE_ROOT; };
+		63B4D8F31AF5614C00A60BDC /* GGSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGSwitch.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,8 +126,8 @@
 		638981081AF2426900C1D3EB /* Switch */ = {
 			isa = PBXGroup;
 			children = (
-				638981091AF242C900C1D3EB /* GGSwitch.h */,
-				6389810A1AF242C900C1D3EB /* GGSwitch.m */,
+				63B4D8F21AF5614C00A60BDC /* GGSwitch.h */,
+				63B4D8F31AF5614C00A60BDC /* GGSwitch.m */,
 			);
 			name = Switch;
 			sourceTree = "<group>";
@@ -233,7 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6326B7751AF1277600A147F6 /* ViewController.m in Sources */,
-				6389810B1AF242C900C1D3EB /* GGSwitch.m in Sources */,
+				63B4D8F41AF5614C00A60BDC /* GGSwitch.m in Sources */,
 				6326B7721AF1277600A147F6 /* AppDelegate.m in Sources */,
 				6326B76F1AF1277600A147F6 /* main.m in Sources */,
 			);

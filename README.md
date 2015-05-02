@@ -11,7 +11,7 @@ Import
 #import "GGSwitch.h" 
 ```
 
-Use it!
+##Use it!
 ```objective-c
 
 @property (nonatomic, strong) UIColor *onTintColor;
@@ -58,7 +58,29 @@ self.mySwitch = [[GGSwitch alloc] initWithFrame:CGRectMake(10, 100, 400, 400)];/
 [self.mySwitch setOn:YES animated:YES];
 
 [self.mySwitch actionBlock:^(BOOL on) {
-NSLog(@"============%d",on);
+      NSLog(@"============%d",on);
 }];
 
 ```
+
+
+
+## [CocoaPods](http://cocoapods.org/)
+
+Add GGSwitch to your `Podfile` and `pod install`.
+
+```ruby
+pod 'GGSwitch', '~> 0.0.1'
+```
+
+## License
+
+These specifications and CocoaPods are available under the [MIT license](http://www.opensource.org/licenses/mit-license.php).
+
+
+
+
+
+
+
+
